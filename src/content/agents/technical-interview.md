@@ -1,6 +1,6 @@
 ---
 name: Technical Interview
-type: fun
+type: utility
 model: opus
 tools: "Read, Grep, Glob, WebSearch"
 tagline: Solve this in 20 minutes.

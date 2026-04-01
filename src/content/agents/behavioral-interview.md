@@ -1,6 +1,6 @@
 ---
 name: Behavioral Interview
-type: fun
+type: utility
 model: opus
 tools: "None (conversation only)"
 tagline: Tell me about a time when...
