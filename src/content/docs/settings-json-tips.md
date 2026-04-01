@@ -1,11 +1,9 @@
 ---
-title: "settings.json Tips"
+title: "settings.json"
 order: 4
 ---
 
-Claude Code's `settings.json` controls permissions, tool access, and hooks. This page explains each setting in the [recommended standard](../.claude/settings.json) and how to customize them.
-
-> **Quick install:** `cp .claude/settings.json ~/.claude/settings.json`. see the [README](../README.md#settings) for full install instructions including the docs-check hook.
+Controls permissions and tool access. Rules here are enforced and cannot be talked around.
 
 ## Where It Lives
 
@@ -15,11 +13,9 @@ Claude Code's `settings.json` controls permissions, tool access, and hooks. This
 | **Project (shared)** | `.claude/settings.json`       | Team standards, committed to git       |
 | **Project (local)**  | `.claude/settings.local.json` | Personal project overrides, gitignored |
 
-Settings merge across scopes. Deny rules always win, regardless of which scope they're in.
+Settings merge across scopes. Deny rules always win.
 
 ## Block Sensitive Files
-
-The standards all include "never read `.env` files" as a written rule. The settings.json makes it enforceable:
 
 ```json
 {
@@ -34,43 +30,11 @@ The standards all include "never read `.env` files" as a written rule. The setti
 }
 ```
 
-This prevents Claude from reading these files even if explicitly asked. Written rules in a CLAUDE.md can be ignored under pressure. deny rules in settings.json cannot.
+Written rules in a CLAUDE.md can be ignored under pressure. Deny rules in settings.json cannot.
 
-**Pattern syntax:**
-
-- `./.env.*`. matches `.env.local`, `.env.production`, etc. relative to the current directory
-- `~/.aws/credentials`. matches a specific file in your home directory
-- `~/.ssh/**`. matches everything recursively under a directory
-
-## Allow the Official Docs as a WebFetch Source
-
-Let Claude pull from the official Claude Code documentation when it needs to look something up:
-
-```json
-{
-  "permissions": {
-    "allow": ["WebFetch(domain:docs.anthropic.com)"]
-  }
-}
-```
-
-You can allowlist other domains the same way:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "WebFetch(domain:docs.anthropic.com)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:*.npmjs.org)"
-    ]
-  }
-}
-```
+**Pattern syntax:** `./.env.*` matches relative files. `~/.ssh/**` matches recursively under a directory.
 
 ## Pre-Approve Common Commands
-
-Stop clicking "allow" for commands you run dozens of times a day:
 
 ```json
 {
@@ -89,11 +53,7 @@ Stop clicking "allow" for commands you run dozens of times a day:
 }
 ```
 
-**Wildcard rules:** `Bash(npm run *)` matches `npm run build`, `npm run test`, etc. The space before `*` enforces a word boundary. `Bash(npm*)` would also match `npmx` or `npmabc`.
-
 ## Gate Dangerous Commands
-
-Use `ask` for commands you want to run sometimes but always want to confirm:
 
 ```json
 {
@@ -103,21 +63,7 @@ Use `ask` for commands you want to run sometimes but always want to confirm:
 }
 ```
 
-These will prompt every time, even in permissive modes.
-
-## Block Commands You Never Want Run
-
-```json
-{
-  "permissions": {
-    "deny": ["Bash(curl *)", "Bash(wget *)"]
-  }
-}
-```
-
-Deny rules take priority over allow and ask. they can't be overridden by any other scope.
-
-## Set a Default Permission Mode
+## Permission Modes
 
 ```json
 {
@@ -127,16 +73,14 @@ Deny rules take priority over allow and ask. they can't be overridden by any oth
 }
 ```
 
-| Mode                | What it does                                                     |
-| ------------------- | ---------------------------------------------------------------- |
-| `default`           | Prompts for permission on first use of each tool                 |
-| `acceptEdits`       | Auto-approves file edits, still prompts for Bash and other tools |
-| `plan`              | Read-only. Claude can analyze but not modify anything            |
-| `bypassPermissions` | Skips all prompts (only use in isolated/sandboxed environments)  |
+| Mode                | What it does                                               |
+| ------------------- | ---------------------------------------------------------- |
+| `default`           | Prompts for permission on first use of each tool           |
+| `acceptEdits`       | Auto-approves file edits, prompts for Bash and other tools |
+| `plan`              | Read-only. Claude can analyze but not modify anything      |
+| `bypassPermissions` | Skips all prompts (isolated/sandboxed environments only)   |
 
-## Scope Edits to Specific Directories
-
-Restrict where Claude can make changes:
+## Scope Edits to Directories
 
 ```json
 {
@@ -147,87 +91,8 @@ Restrict where Claude can make changes:
 }
 ```
 
-## Give Claude Access to Additional Directories
+## Related
 
-By default, Claude can only access the current project directory. Open up adjacent repos or shared code:
-
-```json
-{
-  "permissions": {
-    "additionalDirectories": ["../shared-libs/", "~/work/design-system/"]
-  }
-}
-```
-
-## Add Hooks for Automated Checks
-
-Hooks are shell commands that run in response to Claude Code events. They're defined in the `hooks` key of your settings.json.
-
-The [recommended standard](../.claude/settings.json) includes a **docs-check hook**. a `PostToolUse` hook on Bash that fires after every shell command. When it detects a `git commit` that changed code but no documentation, it tells Claude to check if docs need updating.
-
-```json
-{
-  "hooks": {
-    "PostToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/hooks/docs-check.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
-```
-
-The hook script ([`settings/hooks/docs-check.sh`](../.claude/hooks/docs-check.sh)) checks the tool input for `git commit`, diffs the last commit, and outputs a reminder if code was committed without any `.md` or `docs/` changes. The output is fed back to Claude as context. it's a nudge, not a blocker.
-
-### Hook types
-
-| Event          | When it fires                   | Use case                                    |
-| -------------- | ------------------------------- | ------------------------------------------- |
-| `PreToolUse`   | Before a tool runs              | Validate inputs, block dangerous operations |
-| `PostToolUse`  | After a tool runs               | Check results, trigger follow-up actions    |
-| `Notification` | On notifications                | Custom alerting                             |
-| `Stop`         | When Claude finishes a response | Final checks, cleanup                       |
-
-### Writing your own hooks
-
-Hook commands receive environment variables including `TOOL_INPUT`, `TOOL_NAME`, and `TOOL_RESULT`. Any text the script writes to stdout is fed back to Claude as context. Exit code 0 means success; non-zero blocks the operation (for `PreToolUse`) or flags an issue.
-
-## Agent Teams
-
-Enable experimental agent teams to let agents coordinate and work in parallel:
-
-```json
-{
-  "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  }
-}
-```
-
-With teams enabled, you can create a team lead agent that delegates to specialized agents. Each agent gets its own inbox and context. The lead coordinates the work and synthesizes results. Useful for large tasks where an architect plans, a builder implements, and a reviewer checks quality in a coordinated flow.
-
-Teams are experimental. Enable them to use the `TeamCreate` tool and `SendMessage` for inter-agent communication.
-
-## Use the Recommended Standard
-
-The [`.claude/settings.json`](../.claude/settings.json) in this repo bundles all the tips above into a single file. deny rules, pre-approved commands, WebFetch allowlist, and the docs-check hook. Copy it and customize from there:
-
-```bash
-cp .claude/settings.json ~/.claude/settings.json
-
-# Install the hook scripts
-mkdir -p ~/.claude/hooks
-cp .claude/hooks/*.sh ~/.claude/hooks/
-chmod +x ~/.claude/hooks/*.sh
-```
-
-## Further Reading
-
-- [Official Claude Code settings documentation](https://code.claude.com/docs/en/settings)
-- [What is a CLAUDE.md?](what-is-a-claude-md.md). the other half of configuring Claude Code
+- [Hooks](hooks) for automated checks on tool events
+- [Agent Teams](agent-teams) for coordinating parallel agents
+- [What is a CLAUDE.md?](what-is-a-claude-md) for the other half of configuring Claude Code

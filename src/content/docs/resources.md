@@ -1,6 +1,6 @@
 ---
 title: "Resources"
-order: 6
+order: 8
 ---
 
 Links to official documentation, community tools, and related projects.
