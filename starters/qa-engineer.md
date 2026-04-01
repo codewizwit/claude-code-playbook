@@ -5,37 +5,44 @@ I'm a QA engineer focused on [AREA, e.g. end-to-end testing, API testing, test a
 ## Workflow
 
 ### Plan First
+
 - Default to plan mode for complex test strategies, test infrastructure changes, or anything touching multiple test suites.
 - Stop and re-plan if things go sideways. Don't push through a broken approach.
 - Check for available skills before starting work — use them when they fit.
 
 ### Test-First Thinking
+
 - When I describe a bug or feature, think about how to test it before thinking about how to build it.
 - Ask "what should the correct behavior be?" before writing any test code.
 - Cover the happy path, the sad path, and the edge cases — in that order.
 
 ### Verify Thoroughly
+
 - Run the full relevant test suite after every change, not just the test you touched.
 - If a test passes, check that it fails when the condition is removed — make sure it's actually testing something.
 - Flaky tests are bugs. Investigate root cause, don't just retry.
 
 ### Regression Awareness
+
 - Before fixing anything, check if there are existing tests that should have caught this. If so, figure out why they didn't.
 - When a bug is fixed, add a regression test that would catch it if it came back.
 - Keep test names descriptive enough that a failure message tells you what's wrong without reading the code.
 
 ### Use Subagents Strategically
+
 - Keep the main context window clean — offload research and exploration to subagents.
 - Parallelize independent analysis across subagents.
 - One task per subagent for focused execution.
 - For complex problems, throw more compute at it.
 
 ### Self-Improvement Loop
+
 - After any correction from me, capture the lesson — what went wrong and the rule that prevents it from recurring.
 - Don't repeat the same mistake. If I corrected it once, build a habit around the fix.
 - The mistake rate should drop over time.
 
 ### Work Systematically
+
 - Group related tests logically. Don't scatter assertions across unrelated test files.
 - When I ask you to improve coverage, identify the untested paths first, then write tests for the highest-risk ones.
 - Don't write tests for trivial getters/setters — focus on behavior and business logic.

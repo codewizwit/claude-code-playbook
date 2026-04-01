@@ -1,0 +1,144 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+import fs from "node:fs";
+
+export async function getStaticPaths() {
+  const starters = await getCollection("starters");
+  return starters.map((starter) => ({
+    params: { role: starter.data.role },
+    props: { starter },
+  }));
+}
+
+const { starter } = Astro.props;
+const { Content } = await render(starter);
+const roleName = starter.data.role.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+// Read raw file content (strip frontmatter for copy)
+let rawContent = "";
+try {
+  const full = fs.readFileSync(`src/content/starters/${starter.data.role}/CLAUDE.md`, "utf-8");
+  rawContent = full.replace(/^---[\s\S]*?---\n*/, "");
+} catch { rawContent = ""; }
+---
+
+<Base title={roleName}>
+  <div style="padding: 2rem 0;">
+    <a href="/standards" style="font-size: 0.9rem; color: var(--text-muted);">&larr; All Standards</a>
+    <div class="standard-header">
+      <h1>{roleName}</h1>
+      <p class="desc">{starter.data.description}</p>
+    </div>
+
+    <p class="install-hint">Save to <code>~/.claude/CLAUDE.md</code> to use as your standard.</p>
+
+    <div class="claude-md-preview">
+      <div class="preview-header">
+        <span class="preview-filename">CLAUDE.md</span>
+        <button class="copy-btn" id="copy-standard" aria-label="Copy">Copy file</button>
+      </div>
+      <div class="preview-content">
+        <Content />
+      </div>
+    </div>
+  </div>
+
+  <script define:vars={{ rawContent }}>
+    document.getElementById('copy-standard')?.addEventListener('click', () => {
+      navigator.clipboard.writeText(rawContent);
+      const btn = document.getElementById('copy-standard');
+      if (btn) { btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = 'Copy file'; }, 1500); }
+    });
+  </script>
+</Base>
+
+<style>
+  .standard-header {
+    margin-top: 1rem;
+  }
+  .standard-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+  .desc { color: var(--text-muted); margin-top: 0.25rem; }
+
+  .install-hint {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .install-hint code {
+    background: var(--bg-card);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .claude-md-preview {
+    margin-top: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-card);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+  .copy-btn {
+    font-size: 0.8rem;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent-dim); }
+
+  .preview-content {
+    padding: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+  .preview-content :global(h1),
+  .preview-content :global(h2),
+  .preview-content :global(h3) {
+    color: var(--text);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .preview-content :global(h1) { font-size: 1.4rem; }
+  .preview-content :global(h2) { font-size: 1.15rem; }
+  .preview-content :global(ul), .preview-content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .preview-content :global(li) { margin-bottom: 0.3rem; }
+  .preview-content :global(code) {
+    background: var(--bg-card);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+  .preview-content :global(pre) {
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+</style>

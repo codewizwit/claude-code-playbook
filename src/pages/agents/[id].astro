@@ -1,0 +1,220 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection, render } from "astro:content";
+import fs from "node:fs";
+
+export async function getStaticPaths() {
+  const agents = await getCollection("agents");
+  return agents.map((agent) => ({
+    params: { id: agent.id },
+    props: { agent },
+  }));
+}
+
+const { agent } = Astro.props;
+const { Content } = await render(agent);
+const slug = agent.data.name.toLowerCase().replace(/\s+/g, "-");
+
+// Read the full agent .md file from the repo agents/ directory
+let rawFile = "";
+try {
+  rawFile = fs.readFileSync(`agents/${slug}.md`, "utf-8");
+} catch {
+  // Fall back to catalog slug
+  try {
+    rawFile = fs.readFileSync(`agents/${agent.id}.md`, "utf-8");
+  } catch {
+    rawFile = "";
+  }
+}
+
+const modelColors: Record<string, string> = {
+  opus: "var(--accent)",
+  sonnet: "var(--green)",
+  haiku: "var(--yellow)",
+};
+---
+
+<Base title={agent.data.name}>
+  <div style="padding: 2rem 0;">
+    <a href="/agents" style="font-size: 0.9rem; color: var(--text-muted);">&larr; All Agents</a>
+    <div class="agent-header">
+      <div>
+        <h1>{agent.data.name}</h1>
+        <p class="tagline">"{agent.data.tagline}"</p>
+      </div>
+    </div>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="meta-label">Model</span>
+        <span class="meta-value" style={`color: ${modelColors[agent.data.model] || "var(--text)"}`}>{agent.data.model}</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Type</span>
+        <span class="meta-value">{agent.data.type}</span>
+      </div>
+      {agent.data.tools && (
+        <div class="meta-item">
+          <span class="meta-label">Tools</span>
+          <span class="meta-value">{agent.data.tools}</span>
+        </div>
+      )}
+      {agent.data.trigger && (
+        <div class="meta-item">
+          <span class="meta-label">Trigger phrases</span>
+          <span class="meta-value">{agent.data.trigger}</span>
+        </div>
+      )}
+    </div>
+
+    <div class="usage-section">
+      <p>Invoke in any Claude Code session: <code>@{slug}</code> &nbsp; or run a full session: <code>claude --agent {slug}</code></p>
+    </div>
+
+    {rawFile && (
+      <div class="file-preview">
+        <div class="preview-header">
+          <span class="preview-filename">{slug}.md</span>
+          <button class="copy-btn" id="copy-agent" aria-label="Copy">Copy file</button>
+        </div>
+        <pre class="preview-content" id="agent-raw">{rawFile}</pre>
+      </div>
+    )}
+
+    {!rawFile && (
+      <div class="content">
+        <Content />
+      </div>
+    )}
+
+    <p class="install-hint">Save to <code>~/.claude/agents/{slug}.md</code> to install this agent.</p>
+  </div>
+
+  <script define:vars={{ rawFile }}>
+    document.getElementById('copy-agent')?.addEventListener('click', () => {
+      const content = rawFile;
+      navigator.clipboard.writeText(content);
+      const btn = document.getElementById('copy-agent');
+      if (btn) { btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = 'Copy file'; }, 1500); }
+    });
+  </script>
+</Base>
+
+<style>
+  .agent-header {
+    margin-top: 1rem;
+  }
+  .agent-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+  .tagline {
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 1.1rem;
+    margin-top: 0.25rem;
+  }
+
+  .meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+  }
+  .meta-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.2rem;
+  }
+  .meta-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+  }
+
+  .usage-section {
+    margin-top: 1.5rem;
+  }
+  .usage-section p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .usage-section code {
+    background: var(--bg-card);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .file-preview {
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+  .preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-card);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .preview-filename {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+  .copy-btn {
+    font-size: 0.8rem;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .copy-btn:hover { color: var(--text); border-color: var(--accent-dim); }
+  .preview-content {
+    padding: 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+    background: var(--bg);
+  }
+
+  .install-hint {
+    margin-top: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .install-hint code {
+    background: var(--bg-card);
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+  }
+
+  .content {
+    margin-top: 2rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+  }
+  .content :global(p) { margin-bottom: 1rem; }
+  .content :global(h2) { color: var(--text); margin-top: 1.5rem; }
+</style>

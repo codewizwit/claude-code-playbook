@@ -24,30 +24,36 @@ If the user provided an `[output-path]`, write there. Otherwise write to `./CLAU
 ### 2. Discover Project Conventions
 
 **Code Style**
+
 - Check for linter configs (`.eslintrc`, `.prettierrc`, `ruff.toml`, `.rubocop.yml`, `golangci-lint`, etc.) and note which linter is in use. Don't restate linter rules in the CLAUDE.md — the linter enforces them already.
 - Look at 3-5 source files to identify patterns: naming conventions, import ordering, module structure, export style.
 
 **Test Patterns**
+
 - Use `Glob` to find test files and identify the convention: co-located tests (`*.test.ts` next to source), separate test directory (`tests/`, `__tests__/`, `spec/`), or both.
 - Read 1-2 test files to identify: test framework, assertion style, fixture patterns, setup/teardown conventions.
 - Check for: test coverage config, E2E test setup, integration test directories.
 
 **Project Structure**
+
 - Map the top-level directory structure and identify the architectural pattern: monorepo, module-per-feature, layered (controllers/services/repositories), flat, etc.
 - Check for workspace configs (`nx.json`, `turbo.json`, `lerna.json`, `pnpm-workspace.yaml`).
 - Identify where new files should go — if there's a clear pattern, capture it.
 
 **Git Conventions**
+
 - Use `Bash` (read-only) to check:
   - `git log --oneline -20` — commit message style (conventional commits, prefixed, freeform).
   - Branch naming from `git branch -r --sort=-committerdate | head -10`.
   - Whether there's a `.github/` or CI config that enforces commit or PR conventions.
 
 **CI/CD**
+
 - Check for `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`, `Dockerfile`, `docker-compose.yml`.
 - Note what the CI pipeline runs — tests, linting, type checking, builds — so the CLAUDE.md can reference the right commands.
 
 **Existing Documentation**
+
 - Check for an existing `CLAUDE.md`, `CONTRIBUTING.md`, `README.md`, `docs/` directory.
 - If a `CLAUDE.md` already exists, read it and enhance it rather than replacing it. Note what's already covered.
 - Extract relevant conventions from `CONTRIBUTING.md` if present.

@@ -1,0 +1,56 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const docs = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base title="Docs" description="Learn how Claude Code configuration works — CLAUDE.md, skills, settings, and the full system.">
+  <div style="padding: 2rem 0 1rem;">
+    <h1>Documentation</h1>
+    <p style="color: var(--text-muted); margin-top: 0.5rem;">
+      Everything you need to understand and customize your Claude Code setup.
+    </p>
+  </div>
+
+  <div class="doc-list">
+    {docs.map((doc) => (
+      <a href={`/docs/${doc.id}`} class="doc-card">
+        <h3>{doc.data.title}</h3>
+        <span class="arrow">&rarr;</span>
+      </a>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .doc-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .doc-card:hover {
+    border-color: var(--accent-dim);
+    text-decoration: none;
+  }
+  .doc-card h3 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .arrow {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+</style>

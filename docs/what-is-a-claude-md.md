@@ -6,7 +6,7 @@ It's not documentation. It's not a config file. It's a **working agreement** —
 
 ## Why It Matters
 
-Without a CLAUDE.md, Claude Code uses sensible defaults. With one, it follows *your* defaults:
+Without a CLAUDE.md, Claude Code uses sensible defaults. With one, it follows _your_ defaults:
 
 - **Consistency**: Claude applies your coding standards, commit conventions, and workflow preferences without being reminded every session.
 - **Fewer review cycles**: When Claude knows your patterns upfront, the first draft is closer to what you'd actually approve.
@@ -21,6 +21,7 @@ CLAUDE.md files stack. You can have up to three levels, and all of them are load
 ### 1. User-level: `~/.claude/CLAUDE.md`
 
 Your personal preferences that apply across every project. This is where you put things like:
+
 - Your role and primary tech stack
 - Workflow habits (plan first, verify before done, etc.)
 - Communication preferences
@@ -29,6 +30,7 @@ Your personal preferences that apply across every project. This is where you put
 ### 2. Project-level: `./CLAUDE.md`
 
 Lives in the root of a repo. Applies to everyone working on that project with Claude Code. Good for:
+
 - Project-specific coding standards
 - Architecture decisions and patterns to follow
 - Test conventions
@@ -37,6 +39,7 @@ Lives in the root of a repo. Applies to everyone working on that project with Cl
 ### 3. Folder-level: `src/CLAUDE.md`, `tests/CLAUDE.md`, etc.
 
 Scoped to a specific directory within a project. Useful for:
+
 - Module-specific patterns ("all components in this directory use X pattern")
 - Test-specific rules ("integration tests in this folder require a running database")
 - API-specific conventions ("all endpoints follow this response format")

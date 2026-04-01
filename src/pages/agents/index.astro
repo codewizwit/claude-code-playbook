@@ -1,0 +1,63 @@
+---
+import Base from "../../layouts/Base.astro";
+import AgentCard from "../../components/AgentCard.astro";
+import { getCollection } from "astro:content";
+
+const agents = await getCollection("agents");
+
+const types = ["work", "meta", "utility", "fun"] as const;
+const typeLabels: Record<string, string> = {
+  work: "Work Mode",
+  meta: "Meta (Build Agents & Skills)",
+  utility: "Utility",
+  fun: "Fun",
+};
+const typeDescs: Record<string, string> = {
+  work: "Different phases of development — thinking, building, exploring, reviewing, debugging.",
+  meta: "Agents that create more agents and skills.",
+  utility: "Specialized documentation and analysis tasks.",
+  fun: "Not everything has to be work.",
+};
+---
+
+<Base title="Agents" description="Browse all Claude Code agents — specialized assistants for every mode of work.">
+  <div style="padding: 2rem 0 1rem;">
+    <h1>Agent Catalog</h1>
+    <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px;">
+      Each agent is a single markdown file. Browse what's possible, then use
+      <code style="background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em;">@agent-architect</code>
+      to build your own.
+    </p>
+  </div>
+
+  {types.map((type) => {
+    const filtered = agents.filter((a) => a.data.type === type);
+    if (filtered.length === 0) return null;
+    return (
+      <section style="padding: 1.5rem 0;">
+        <h2 style="font-size: 1.25rem; font-weight: 600;">{typeLabels[type]}</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">{typeDescs[type]}</p>
+        <div class="agent-grid">
+          {filtered.map((agent) => (
+            <AgentCard
+              name={agent.data.name}
+              type={agent.data.type}
+              model={agent.data.model}
+              tools={agent.data.tools}
+              tagline={agent.data.tagline}
+              slug={agent.id}
+            />
+          ))}
+        </div>
+      </section>
+    );
+  })}
+</Base>
+
+<style>
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+</style>

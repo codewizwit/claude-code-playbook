@@ -6,7 +6,7 @@ This guide walks you through setting up Claude Code using this playbook. No term
 
 - A computer (Mac, Windows, or Linux)
 - NodeJS
-- Antrhopic Claude Code 
+- Antrhopic Claude Code
 - About 10 minutes
 
 ## Step 1: Install VS Code and Node.JS
@@ -15,9 +15,9 @@ If you already have VS Code installed, skip to Step 2.
 
 1. Download and install Visual Studio Code
 2. Downlaod and install Node.JS - verify installation in new Terminal `node --version`
-2. Launch VS Code when it's done
+3. Launch VS Code when it's done
 
-## Step 2: Install the Claude Code Extension  (0ptional)
+## Step 2: Install the Claude Code Extension (0ptional)
 
 1. Open VS Code
 2. Click the **Extensions** icon in the left sidebar (it looks like four small squares)
@@ -53,24 +53,28 @@ Claude Code should start up. If it asks you to sign in, follow the prompts.
 
 Now the fun part. In the Claude Code prompt, describe your role and ask Claude to configure everything for you. Use the `@` symbol to point Claude at the README so it knows what's available.
 
-Here are some examples you can copy and paste. Each one asks Claude to set everything up *and* explain what it did in plain language:
+Here are some examples you can copy and paste. Each one asks Claude to set everything up _and_ explain what it did in plain language:
 
 **If you're a product owner:**
+
 > I'm a product owner working on a B2B SaaS platform. Read @README.md and set me up with the right starter, settings, and skills for my role. My team uses Teams for communication and Confluence for documentation.
 >
 > When you're done, give me a plain-language summary: what you installed, what each piece does for me specifically, and why it benefits someone in my role. Then ask me if I'm ready to walk through customizing it together — things like my team's tools, my preferences, and anything the starter assumed that might not fit how I actually work.
 
 **If you're a manager:**
+
 > I'm an engineering manager with a team of 6. Read @README.md and set me up — install the starter for my role, the settings, and the hook. Replace the placeholders with my details.
 >
 > After setup, explain in non-technical terms: what changed and why each piece benefits someone in my role. Then ask if I want to customize it together — walk me through the choices the starter made and help me adjust anything that doesn't match how my team actually operates.
 
 **If you're a developer:**
+
 > I'm a frontend developer working in TypeScript and React. Read @README.md and set me up with everything — the developer starter, settings, hooks, and skills. Replace the placeholders with my stack.
 >
 > After setup, summarize what you configured and why each setting matters for my workflow. Then ask if I want to customize it together — go through the defaults and help me adjust anything based on my actual stack, team conventions, or preferences.
 
 **If you're not sure which role fits:**
+
 > Read @README.md and help me pick the right starter. I'm a [describe what you do day-to-day]. Once we pick one, set everything up for me, explain what you did and why in plain language, and then walk me through customizing it for how I actually work.
 
 Claude will read the README, pick the right files, copy them into place, fill in what it can, and then explain what it did and why — in plain language, not technical jargon.
@@ -79,15 +83,15 @@ Claude will read the README, pick the right files, copy them into place, fill in
 
 After the initial setup, Claude will ask if you're ready to customize. This is a conversation, not a checklist — Claude walks you through the choices the starter made and helps you adjust them. Just answer naturally:
 
-- *"I actually use Jira, not Confluence"*
-- *"My team does two-week sprints"*
-- *"I never want Claude to push code without asking me first"*
-- *"I don't do code reviews — that's my tech lead"*
-- *"We use Python and Django, not TypeScript"*
+- _"I actually use Jira, not Confluence"_
+- _"My team does two-week sprints"_
+- _"I never want Claude to push code without asking me first"_
+- _"I don't do code reviews — that's my tech lead"_
+- _"We use Python and Django, not TypeScript"_
 
 Claude updates the files for you as you go. You don't need to know where things live or how to edit them — just describe how you work and Claude handles the rest.
 
-If you want to skip customization for now, that's fine too. The starters work out of the box. You can always come back and say *"Let's customize my CLAUDE.md"* in any future session.
+If you want to skip customization for now, that's fine too. The starters work out of the box. You can always come back and say _"Let's customize my CLAUDE.md"_ in any future session.
 
 ## What Just Happened?
 

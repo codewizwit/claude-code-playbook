@@ -1,0 +1,183 @@
+---
+import Base from "../layouts/Base.astro";
+
+const skills = [
+  { name: "Next.js App Router", slug: "next-app-router", category: "Framework", triggers: "app/**/*.tsx, app/**/*.ts", description: "Server Components, Server Actions, caching, async APIs, proxy.ts" },
+  { name: "TypeScript Expert", slug: "typescript-expert", category: "Language", triggers: "**/*.ts, **/*.tsx", description: "Type safety patterns, generics, modern TS 5.x features" },
+  { name: "Prisma + Neon", slug: "prisma-neon", category: "Database", triggers: "prisma/**, *.prisma", description: "Schema design, Neon serverless adapter, migration patterns" },
+  { name: "AI SDK Patterns", slug: "ai-sdk-patterns", category: "AI", triggers: "imports: ai, @ai-sdk/*", description: "streamText, useChat, Agent class, tool definitions, AI Gateway" },
+  { name: "Astro Site", slug: "astro-site", category: "Framework", triggers: "**/*.astro, astro.config.*", description: "Content collections, MDX, islands architecture" },
+  { name: "CLI Toolkit", slug: "cli-toolkit", category: "Tooling", triggers: "bin/**, commands/**", description: "Commander + Inquirer + Chalk patterns" },
+  { name: "Git Workflow", slug: "git-workflow", category: "Workflow", triggers: "bash: git, gh", description: "Commit conventions, branching, PR best practices" },
+  { name: "Prompt Engineering", slug: "prompt-engineering", category: "AI", triggers: "prompt keywords", description: "System prompts, few-shot, evaluation, guardrails" },
+  { name: "Testing Automation", slug: "testing-automation", category: "Testing", triggers: "**/*.test.ts, **/*.spec.ts", description: "Jest, Vitest, Playwright, Cypress, mutation testing" },
+  { name: "Engineering Practices", slug: "engineering-practices", category: "Standards", triggers: "prompt keywords", description: "SOLID principles, clean code, testing strategies" },
+  { name: "Accessibility First", slug: "accessibility-first", category: "Standards", triggers: "prompt keywords", description: "WCAG standards, semantic HTML, ARIA, keyboard navigation" },
+  { name: "CI/CD Pipelines", slug: "ci-cd-pipelines", category: "DevOps", triggers: ".github/workflows/**", description: "GitHub Actions, secrets management, deployment strategies" },
+  { name: "Brand Voice", slug: "brand-voice", category: "Content", triggers: "prompt keywords", description: "Your brand voice and writing principles — customize for your org" },
+  { name: "Brand Style Guide", slug: "brand-style-guide", category: "Design", triggers: "prompt keywords", description: "Your visual design system — colors, fonts, components" },
+  { name: "API Proxy Setup", slug: "api-proxy-setup", category: "Backend", triggers: "proxy/**, middleware/**", description: "Express proxy patterns, server-side secret keeping" },
+  { name: "Vite React Scaffold", slug: "vite-react-scaffold", category: "Framework", triggers: "vite.config.*", description: "Vite + React scaffolding patterns" },
+  { name: "Developer Experience", slug: "developer-experience", category: "Standards", triggers: "prompt keywords", description: "CLI design, documentation, developer empathy" },
+  { name: "Responsible AI Governance", slug: "responsible-ai-governance", category: "AI", triggers: "prompt keywords", description: "Human-in-the-loop, accountability, developer-first AI" },
+  { name: "React Component Split", slug: "react-component-split", category: "Framework", triggers: "**/*.tsx refactor", description: "Component refactoring and splitting patterns" },
+  { name: "Angular + Nx Expert", slug: "angular-nx-expert", category: "Framework", triggers: "**/*.component.ts", description: "Angular signals, Nx monorepo, module boundaries" },
+  { name: "Micro Frontends", slug: "micro-frontends", category: "Architecture", triggers: "prompt keywords", description: "Module Federation, shared dependencies, independent deploy" },
+  { name: "NestJS Backend", slug: "nestjs-backend", category: "Backend", triggers: "**/*.module.ts", description: "Dependency injection, microservices, clean architecture" },
+  { name: "AWS Serverless", slug: "aws-serverless", category: "Cloud", triggers: "serverless.yml, template.yaml", description: "Lambda, CloudFormation, IAM, FaaS patterns" },
+];
+
+const categories = [...new Set(skills.map(s => s.category))].sort();
+---
+
+<Base title="Skills" description="Auto-injected knowledge packets that activate based on what you're working on.">
+  <div style="padding: 2rem 0 1rem;">
+    <h1>Skills Catalog</h1>
+    <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px;">
+      Skills are knowledge packets that auto-inject when you're working in a relevant context.
+      You don't call them — they activate based on file patterns, imports, and prompt keywords.
+    </p>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.75rem;">
+      Build your own: <code style="background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em;">@skill-architect create a skill for [topic]</code>
+    </p>
+  </div>
+
+  <div class="skill-count" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
+    {skills.length} skills across {categories.length} categories
+  </div>
+
+  <table class="skill-table">
+    <thead>
+      <tr>
+        <th>Skill</th>
+        <th>Category</th>
+        <th>Auto-Triggers</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {skills.map((skill) => (
+        <tr>
+          <td class="skill-name">{skill.name}</td>
+          <td><span class="category-badge">{skill.category}</span></td>
+          <td class="triggers">{skill.triggers}</td>
+          <td class="desc">{skill.description}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+
+  <section class="how-skills-work">
+    <h2>How Skills Work</h2>
+    <p class="how-intro">Skills are markdown files that Claude Code loads into context when they're relevant. Instead of dumping every rule into every conversation, skills activate only when you need them.</p>
+
+    <div class="how-grid">
+      <div class="how-card">
+        <h3>You write code normally</h3>
+        <p>Open a file, ask a question, run a command. You don't invoke skills manually. Claude Code watches what you're doing and loads the right knowledge in the background.</p>
+      </div>
+      <div class="how-card">
+        <h3>The right context appears</h3>
+        <p>Edit a <code>.prisma</code> file and database best practices load. Import <code>@ai-sdk/react</code> and the AI SDK skill activates. Ask about "testing" and testing patterns appear. Each skill defines when it should fire.</p>
+      </div>
+      <div class="how-card">
+        <h3>Claude follows the guidance</h3>
+        <p>The skill's content becomes part of Claude's context for that session. It shapes how Claude writes code, what patterns it uses, and what mistakes it avoids. One injection per session, so it never repeats.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .skill-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .skill-table th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+  .skill-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .skill-table tr:hover {
+    background: var(--bg-card);
+  }
+  .skill-name {
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+  }
+  .category-badge {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+    white-space: nowrap;
+  }
+  .triggers {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+  .desc {
+    color: var(--text-muted);
+  }
+
+  .how-skills-work {
+    padding: 2.5rem 0;
+  }
+  .how-skills-work h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+  }
+  .how-intro {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    max-width: 650px;
+    line-height: 1.6;
+  }
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  .how-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+  .how-card h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .how-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .how-card code {
+    background: var(--bg-hover);
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.2rem;
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 768px) {
+    .how-grid { grid-template-columns: 1fr; }
+    .skill-table { font-size: 0.8rem; }
+  }
+</style>

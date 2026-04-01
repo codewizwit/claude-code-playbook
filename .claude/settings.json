@@ -23,11 +23,7 @@
       "WebFetch(domain:docs.anthropic.com)",
       "WebFetch(domain:github.com)"
     ],
-    "ask": [
-      "Bash(git push *)",
-      "Bash(git reset *)",
-      "Bash(rm *)"
-    ]
+    "ask": ["Bash(git push *)", "Bash(git reset *)", "Bash(rm *)"]
   },
   "hooks": {
     "PostToolUse": [

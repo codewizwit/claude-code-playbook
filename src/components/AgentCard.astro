@@ -1,0 +1,89 @@
+---
+interface Props {
+  name: string;
+  type: string;
+  model: string;
+  tools?: string;
+  tagline: string;
+  slug: string;
+}
+
+const { name, type, model, tools, tagline, slug } = Astro.props;
+
+const modelColors: Record<string, string> = {
+  opus: "var(--accent)",
+  sonnet: "var(--green)",
+  haiku: "var(--yellow)",
+};
+
+const typeLabels: Record<string, string> = {
+  work: "Work",
+  meta: "Meta",
+  utility: "Utility",
+  project: "Project",
+  fun: "Fun",
+};
+
+const modelColor = modelColors[model] || "var(--text-muted)";
+---
+
+<a href={`/agents/${slug}`} class="agent-card">
+  <div class="card-header">
+    <span class="agent-name">{name}</span>
+    <span class="agent-type">{typeLabels[type] || type}</span>
+  </div>
+  <p class="tagline">"{tagline}"</p>
+  <div class="card-meta">
+    <span class="model" style={`color: ${modelColor}`}>{model}</span>
+    {tools && <span class="tools">{tools}</span>}
+  </div>
+</a>
+
+<style>
+  .agent-card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    transition: border-color 0.15s, background 0.15s;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .agent-card:hover {
+    border-color: var(--accent-dim);
+    background: var(--bg-hover);
+    text-decoration: none;
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  .agent-name {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+  .agent-type {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.15rem 0.6rem;
+  }
+  .tagline {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+  .card-meta {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .model { font-weight: 500; }
+  .tools { color: var(--text-muted); }
+</style>

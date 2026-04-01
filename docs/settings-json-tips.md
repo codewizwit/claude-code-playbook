@@ -6,11 +6,11 @@ Claude Code's `settings.json` controls permissions, tool access, and hooks. This
 
 ## Where It Lives
 
-| Scope | Location | Use case |
-|-------|----------|----------|
-| **User** | `~/.claude/settings.json` | Personal defaults across all projects |
-| **Project (shared)** | `.claude/settings.json` | Team standards, committed to git |
-| **Project (local)** | `.claude/settings.local.json` | Personal project overrides, gitignored |
+| Scope                | Location                      | Use case                               |
+| -------------------- | ----------------------------- | -------------------------------------- |
+| **User**             | `~/.claude/settings.json`     | Personal defaults across all projects  |
+| **Project (shared)** | `.claude/settings.json`       | Team standards, committed to git       |
+| **Project (local)**  | `.claude/settings.local.json` | Personal project overrides, gitignored |
 
 Settings merge across scopes. Deny rules always win, regardless of which scope they're in.
 
@@ -34,6 +34,7 @@ The starters all include "never read `.env` files" as a written rule. The settin
 This prevents Claude from reading these files even if explicitly asked. Written rules in a CLAUDE.md can be ignored under pressure — deny rules in settings.json cannot.
 
 **Pattern syntax:**
+
 - `./.env.*` — matches `.env.local`, `.env.production`, etc. relative to the current directory
 - `~/.aws/credentials` — matches a specific file in your home directory
 - `~/.ssh/**` — matches everything recursively under a directory
@@ -45,9 +46,7 @@ Let Claude pull from the official Claude Code documentation when it needs to loo
 ```json
 {
   "permissions": {
-    "allow": [
-      "WebFetch(domain:docs.anthropic.com)"
-    ]
+    "allow": ["WebFetch(domain:docs.anthropic.com)"]
   }
 }
 ```
@@ -96,11 +95,7 @@ Use `ask` for commands you want to run sometimes but always want to confirm:
 ```json
 {
   "permissions": {
-    "ask": [
-      "Bash(git push *)",
-      "Bash(docker *)",
-      "Bash(rm *)"
-    ]
+    "ask": ["Bash(git push *)", "Bash(docker *)", "Bash(rm *)"]
   }
 }
 ```
@@ -112,10 +107,7 @@ These will prompt every time, even in permissive modes.
 ```json
 {
   "permissions": {
-    "deny": [
-      "Bash(curl *)",
-      "Bash(wget *)"
-    ]
+    "deny": ["Bash(curl *)", "Bash(wget *)"]
   }
 }
 ```
@@ -132,12 +124,12 @@ Deny rules take priority over allow and ask — they can't be overridden by any 
 }
 ```
 
-| Mode | What it does |
-|------|-------------|
-| `default` | Prompts for permission on first use of each tool |
-| `acceptEdits` | Auto-approves file edits, still prompts for Bash and other tools |
-| `plan` | Read-only — Claude can analyze but not modify anything |
-| `bypassPermissions` | Skips all prompts (only use in isolated/sandboxed environments) |
+| Mode                | What it does                                                     |
+| ------------------- | ---------------------------------------------------------------- |
+| `default`           | Prompts for permission on first use of each tool                 |
+| `acceptEdits`       | Auto-approves file edits, still prompts for Bash and other tools |
+| `plan`              | Read-only — Claude can analyze but not modify anything           |
+| `bypassPermissions` | Skips all prompts (only use in isolated/sandboxed environments)  |
 
 ## Scope Edits to Specific Directories
 
@@ -146,14 +138,8 @@ Restrict where Claude can make changes:
 ```json
 {
   "permissions": {
-    "allow": [
-      "Edit(/src/**)",
-      "Edit(/tests/**)"
-    ],
-    "deny": [
-      "Edit(/infrastructure/**)",
-      "Edit(/.github/**)"
-    ]
+    "allow": ["Edit(/src/**)", "Edit(/tests/**)"],
+    "deny": ["Edit(/infrastructure/**)", "Edit(/.github/**)"]
   }
 }
 ```
@@ -165,10 +151,7 @@ By default, Claude can only access the current project directory. Open up adjace
 ```json
 {
   "permissions": {
-    "additionalDirectories": [
-      "../shared-libs/",
-      "~/work/design-system/"
-    ]
+    "additionalDirectories": ["../shared-libs/", "~/work/design-system/"]
   }
 }
 ```
@@ -201,12 +184,12 @@ The hook script ([`settings/hooks/docs-check.sh`](../.claude/hooks/docs-check.sh
 
 ### Hook types
 
-| Event | When it fires | Use case |
-|-------|--------------|----------|
-| `PreToolUse` | Before a tool runs | Validate inputs, block dangerous operations |
-| `PostToolUse` | After a tool runs | Check results, trigger follow-up actions |
-| `Notification` | On notifications | Custom alerting |
-| `Stop` | When Claude finishes a response | Final checks, cleanup |
+| Event          | When it fires                   | Use case                                    |
+| -------------- | ------------------------------- | ------------------------------------------- |
+| `PreToolUse`   | Before a tool runs              | Validate inputs, block dangerous operations |
+| `PostToolUse`  | After a tool runs               | Check results, trigger follow-up actions    |
+| `Notification` | On notifications                | Custom alerting                             |
+| `Stop`         | When Claude finishes a response | Final checks, cleanup                       |
 
 ### Writing your own hooks
 

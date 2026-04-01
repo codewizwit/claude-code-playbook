@@ -1,0 +1,358 @@
+---
+import Base from "../layouts/Base.astro";
+import AgentCard from "../components/AgentCard.astro";
+import { getCollection } from "astro:content";
+
+const agents = await getCollection("agents");
+const starters = (await getCollection("starters")).sort((a, b) => a.data.order - b.data.order);
+const workAgents = agents.filter((a) => a.data.type === "work");
+const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
+---
+
+<Base title="Home">
+  <div class="hero">
+    <p class="eyebrow">CLAUDE & I</p>
+    <h1>My Claude Code environment</h1>
+    <p class="subtitle">
+      21 specialized agents. 27 auto-injected skills. 11 role-based standards.
+      A Claude Code environment built over time. Open source so you can fork it and make it yours.
+    </p>
+    <div class="hero-actions">
+      <a href="/agents" class="btn btn-primary">Browse the system</a>
+      <a href="/docs/getting-started" class="btn btn-secondary">Fork and customize</a>
+    </div>
+  </div>
+
+  <section class="section">
+    <p class="eyebrow">THE SYSTEM</p>
+    <h2>Three layers that work together</h2>
+    <div class="layers-grid">
+      <a href="/agents" class="layer-card">
+        <span class="layer-num">21</span>
+        <h3>Agents</h3>
+        <p>Specialized assistants for thinking, building, reviewing, and debugging. Each has its own model, tools, and expertise.</p>
+      </a>
+      <a href="/skills" class="layer-card">
+        <span class="layer-num">27</span>
+        <h3>Skills</h3>
+        <p>Knowledge that auto-injects when relevant. Edit a Prisma file and database patterns appear. No manual invocation.</p>
+      </a>
+      <a href="/standards" class="layer-card">
+        <span class="layer-num">11</span>
+        <h3>Standards</h3>
+        <p>Role-based CLAUDE.md files. Pick your role, copy the file, fill in the placeholders. Active every session.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <p class="eyebrow">WORK AGENTS</p>
+        <h2>Different modes of working</h2>
+      </div>
+      <a href="/agents" class="see-all">All {agents.length} agents</a>
+    </div>
+    <div class="agent-grid">
+      {workAgents.map((agent) => (
+        <AgentCard
+          name={agent.data.name}
+          type={agent.data.type}
+          model={agent.data.model}
+          tools={agent.data.tools}
+          tagline={agent.data.tagline}
+          slug={agent.id}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="eyebrow">NOT JUST WORK</p>
+    <h2>Fun agents</h2>
+    <p class="section-desc">Philosophy, sci-fi, anime, music. Not everything has to be productive.</p>
+    <div class="agent-grid">
+      {funAgents.map((agent) => (
+        <AgentCard
+          name={agent.data.name}
+          type={agent.data.type}
+          model={agent.data.model}
+          tools={agent.data.tools}
+          tagline={agent.data.tagline}
+          slug={agent.id}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="eyebrow">STANDARDS</p>
+    <h2>Pick your role</h2>
+    <div class="starter-grid">
+      {starters.slice(0, 6).map((s) => (
+        <a href={`/standards/${s.data.role}`} class="starter-card">
+          <h3>{s.data.role.replace(/-/g, " ").replace(/\b\w/g, (c: string) => c.toUpperCase())}</h3>
+          <p>{s.data.description}</p>
+        </a>
+      ))}
+    </div>
+    <a href="/standards" class="see-all" style="display: inline-block; margin-top: 1rem;">All {starters.length} roles</a>
+  </section>
+
+  <section class="section cta">
+    <p class="eyebrow">MAKE IT YOURS</p>
+    <h2>Fork it, run the wizard</h2>
+    <p class="section-desc">Fork the repo to own your version, then the setup wizard walks you through picking agents, skills, and a standard.</p>
+
+    <div class="install-toggle">
+      <button class="toggle-btn active" data-tab="existing">I have Claude Code</button>
+      <button class="toggle-btn" data-tab="fresh">Fresh install</button>
+    </div>
+
+    <div class="install-tab active" id="tab-existing">
+      <div class="cta-steps">
+        <div class="copyable"><code>gh repo fork codewizwit/claude-code-playbook --clone && cd claude-code-playbook</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>claude</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>/setup</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+      </div>
+      <p class="cta-note">Three commands. The wizard picks your role, agents, and skills, then copies everything to <code>~/.claude/</code>.</p>
+    </div>
+
+    <div class="install-tab" id="tab-fresh">
+      <div class="cta-steps">
+        <div class="copyable"><code>npm install -g @anthropic-ai/claude-code</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>gh repo fork codewizwit/claude-code-playbook --clone && cd claude-code-playbook</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>claude</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>/setup</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+      </div>
+      <p class="cta-note">Install Claude Code first, then fork and run the wizard. Need Node.js too? <a href="/docs/getting-started">See the full guide</a>.</p>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.install-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab)?.classList.add('active');
+      });
+    });
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.previousElementSibling?.textContent || '';
+        navigator.clipboard.writeText(code);
+        btn.textContent = 'Copied';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      });
+    });
+  </script>
+</Base>
+
+<style>
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    margin-bottom: 0.4rem;
+  }
+
+  .hero {
+    padding: 4rem 0 2.5rem;
+    max-width: 620px;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+  .hero-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+  .btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.9; text-decoration: none; }
+  .btn-primary { background: var(--accent-dim); color: white; }
+  .btn-secondary { border: 1px solid var(--border); color: var(--text); }
+
+  .section { padding: 2.5rem 0; }
+  .section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 0.5rem;
+  }
+  .section-desc {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .see-all { font-size: 0.9rem; color: var(--text-muted); }
+
+  .layers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  .layer-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    color: var(--text);
+    transition: border-color 0.15s;
+    display: block;
+  }
+  .layer-card:hover { border-color: var(--accent-dim); text-decoration: none; }
+  .layer-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+  .layer-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0.4rem 0;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  }
+  .layer-card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .agent-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .starter-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .starter-card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .starter-card:hover { border-color: var(--accent-dim); text-decoration: none; }
+  .starter-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .starter-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+  .install-toggle {
+    display: flex;
+    gap: 0;
+    margin-top: 1.75rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    width: fit-content;
+  }
+  .toggle-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.85rem;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .toggle-btn:hover { color: var(--text); }
+  .toggle-btn.active {
+    background: var(--bg-card);
+    color: var(--text);
+  }
+  .install-tab { display: none; }
+  .install-tab.active { display: block; }
+
+  .cta { padding: 3rem 0 4rem; }
+  .cta-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 650px;
+  }
+  .copyable {
+    display: flex;
+    align-items: center;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  .copyable code {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    background: none;
+    border: none;
+  }
+  .copy-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    border-left: 1px solid var(--border);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .copy-btn:hover { color: var(--text); }
+  .cta-note {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 1.25rem;
+    max-width: 550px;
+  }
+  .cta-note code {
+    display: inline;
+    border: none;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 768px) {
+    .layers-grid, .agent-grid, .starter-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.8rem; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  }
+</style>
