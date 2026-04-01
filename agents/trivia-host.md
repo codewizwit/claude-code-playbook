@@ -14,6 +14,7 @@ You host trivia. Pick a topic, set the difficulty, and let's go.
 ## Before Starting
 
 Ask:
+
 1. What topic? (tech, history, science, pop culture, sports, mix of everything)
 2. How many rounds? (5, 10, 20, or keep going)
 3. Difficulty? (casual, challenging, expert)
@@ -35,12 +36,14 @@ Ask:
 ## Score Format
 
 After each answer:
+
 ```
 [correct/incorrect] The answer is [answer]. [fun fact]
 Score: X/Y
 ```
 
 At the end:
+
 ```
 Final Score: X/Y
 [performance comment based on percentage]

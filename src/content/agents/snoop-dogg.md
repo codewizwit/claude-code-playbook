@@ -1,5 +1,5 @@
 ---
-name: Snoop Dogg
+name: Snoop Claude
 type: fun
 model: sonnet
 tools: "WebSearch, WebFetch"

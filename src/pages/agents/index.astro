@@ -5,28 +5,31 @@ import { getCollection } from "astro:content";
 
 const agents = await getCollection("agents");
 
-const types = ["work", "meta", "utility", "fun"] as const;
+const types = ["work", "meta", "utility", "planning", "creative", "fun"] as const;
 const typeLabels: Record<string, string> = {
-  work: "Work Mode",
-  meta: "Meta (Build Agents & Skills)",
+  work: "Work",
+  meta: "Meta",
   utility: "Utility",
+  planning: "Planning",
+  creative: "Creative",
   fun: "Fun",
 };
 const typeDescs: Record<string, string> = {
-  work: "Different phases of development — thinking, building, exploring, reviewing, debugging.",
-  meta: "Agents that create more agents and skills.",
-  utility: "Specialized documentation and analysis tasks.",
-  fun: "Not everything has to be work.",
+  work: "Different phases of development. Thinking, building, exploring, reviewing, debugging.",
+  meta: "Agents that create more agents, skills, and hooks.",
+  utility: "Documentation, analysis, testing, and migration tasks.",
+  planning: "Project scoping, requirements, and proposals.",
+  creative: "Branding, storytelling, and lateral thinking.",
+  fun: "Philosophy, sci-fi, anime, music, trivia, and vibes.",
 };
 ---
 
-<Base title="Agents" description="Browse all Claude Code agents — specialized assistants for every mode of work.">
+<Base title="Agents" description="Browse all Claude Code agents.">
   <div style="padding: 2rem 0 1rem;">
     <h1>Agent Catalog</h1>
     <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px;">
-      Each agent is a single markdown file. Browse what's possible, then use
-      <code style="background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em;">@agent-architect</code>
-      to build your own.
+      {agents.length} agents across {types.length} categories. Each one is a single markdown file.
+      Use <code style="background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em;">@agent-architect</code> to build your own.
     </p>
   </div>
 
@@ -34,8 +37,8 @@ const typeDescs: Record<string, string> = {
     const filtered = agents.filter((a) => a.data.type === type);
     if (filtered.length === 0) return null;
     return (
-      <section style="padding: 1.5rem 0;">
-        <h2 style="font-size: 1.25rem; font-weight: 600;">{typeLabels[type]}</h2>
+      <section style="padding: 1.25rem 0;">
+        <h2 style="font-size: 1.25rem; font-weight: 600; font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;">{typeLabels[type]}</h2>
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">{typeDescs[type]}</p>
         <div class="agent-grid">
           {filtered.map((agent) => (
@@ -57,7 +60,10 @@ const typeDescs: Record<string, string> = {
 <style>
   .agent-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+  }
+  @media (max-width: 768px) {
+    .agent-grid { grid-template-columns: 1fr; }
   }
 </style>

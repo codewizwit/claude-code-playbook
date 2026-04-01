@@ -1,49 +1,74 @@
 ---
 import Base from "../layouts/Base.astro";
 
+const categoryColors: Record<string, string> = {
+  Framework: "#60a5fa",
+  Language: "#a78bfa",
+  Database: "#34d399",
+  AI: "#f472b6",
+  Testing: "#fbbf24",
+  Standards: "#fb923c",
+  Workflow: "#38bdf8",
+  Communication: "#c084fc",
+  Planning: "#facc15",
+  Tooling: "#4ade80",
+  Brand: "#f87171",
+  Legacy: "#6b7280",
+};
+
 const skills = [
-  { name: "Next.js App Router", slug: "next-app-router", category: "Framework", triggers: "app/**/*.tsx, app/**/*.ts", description: "Server Components, Server Actions, caching, async APIs, proxy.ts" },
-  { name: "TypeScript Expert", slug: "typescript-expert", category: "Language", triggers: "**/*.ts, **/*.tsx", description: "Type safety patterns, generics, modern TS 5.x features" },
-  { name: "Prisma + Neon", slug: "prisma-neon", category: "Database", triggers: "prisma/**, *.prisma", description: "Schema design, Neon serverless adapter, migration patterns" },
-  { name: "AI SDK Patterns", slug: "ai-sdk-patterns", category: "AI", triggers: "imports: ai, @ai-sdk/*", description: "streamText, useChat, Agent class, tool definitions, AI Gateway" },
-  { name: "Astro Site", slug: "astro-site", category: "Framework", triggers: "**/*.astro, astro.config.*", description: "Content collections, MDX, islands architecture" },
-  { name: "CLI Toolkit", slug: "cli-toolkit", category: "Tooling", triggers: "bin/**, commands/**", description: "Commander + Inquirer + Chalk patterns" },
-  { name: "Git Workflow", slug: "git-workflow", category: "Workflow", triggers: "bash: git, gh", description: "Commit conventions, branching, PR best practices" },
-  { name: "Prompt Engineering", slug: "prompt-engineering", category: "AI", triggers: "prompt keywords", description: "System prompts, few-shot, evaluation, guardrails" },
-  { name: "Testing Automation", slug: "testing-automation", category: "Testing", triggers: "**/*.test.ts, **/*.spec.ts", description: "Jest, Vitest, Playwright, Cypress, mutation testing" },
-  { name: "Engineering Practices", slug: "engineering-practices", category: "Standards", triggers: "prompt keywords", description: "SOLID principles, clean code, testing strategies" },
-  { name: "Accessibility First", slug: "accessibility-first", category: "Standards", triggers: "prompt keywords", description: "WCAG standards, semantic HTML, ARIA, keyboard navigation" },
-  { name: "CI/CD Pipelines", slug: "ci-cd-pipelines", category: "DevOps", triggers: ".github/workflows/**", description: "GitHub Actions, secrets management, deployment strategies" },
-  { name: "Brand Voice", slug: "brand-voice", category: "Content", triggers: "prompt keywords", description: "Your brand voice and writing principles — customize for your org" },
-  { name: "Brand Style Guide", slug: "brand-style-guide", category: "Design", triggers: "prompt keywords", description: "Your visual design system — colors, fonts, components" },
-  { name: "API Proxy Setup", slug: "api-proxy-setup", category: "Backend", triggers: "proxy/**, middleware/**", description: "Express proxy patterns, server-side secret keeping" },
-  { name: "Vite React Scaffold", slug: "vite-react-scaffold", category: "Framework", triggers: "vite.config.*", description: "Vite + React scaffolding patterns" },
-  { name: "Developer Experience", slug: "developer-experience", category: "Standards", triggers: "prompt keywords", description: "CLI design, documentation, developer empathy" },
-  { name: "Responsible AI Governance", slug: "responsible-ai-governance", category: "AI", triggers: "prompt keywords", description: "Human-in-the-loop, accountability, developer-first AI" },
-  { name: "React Component Split", slug: "react-component-split", category: "Framework", triggers: "**/*.tsx refactor", description: "Component refactoring and splitting patterns" },
-  { name: "Angular + Nx Expert", slug: "angular-nx-expert", category: "Framework", triggers: "**/*.component.ts", description: "Angular signals, Nx monorepo, module boundaries" },
-  { name: "Micro Frontends", slug: "micro-frontends", category: "Architecture", triggers: "prompt keywords", description: "Module Federation, shared dependencies, independent deploy" },
-  { name: "NestJS Backend", slug: "nestjs-backend", category: "Backend", triggers: "**/*.module.ts", description: "Dependency injection, microservices, clean architecture" },
-  { name: "AWS Serverless", slug: "aws-serverless", category: "Cloud", triggers: "serverless.yml, template.yaml", description: "Lambda, CloudFormation, IAM, FaaS patterns" },
+  { name: "Next.js App Router", category: "Framework", triggers: "app/**/*.tsx, app/**/*.ts", description: "Server Components, Server Actions, caching, async APIs, proxy.ts" },
+  { name: "Astro Site", category: "Framework", triggers: "**/*.astro, astro.config.*", description: "Content collections, MDX, islands architecture" },
+  { name: "Vite React Scaffold", category: "Framework", triggers: "vite.config.*", description: "Vite + React scaffolding patterns" },
+  { name: "React Component Split", category: "Framework", triggers: "**/*.tsx refactor", description: "Component refactoring and splitting patterns" },
+  { name: "TypeScript Expert", category: "Language", triggers: "**/*.ts, **/*.tsx", description: "Type safety patterns, generics, modern TS 5.x features" },
+  { name: "Prisma + Neon", category: "Database", triggers: "prisma/**, *.prisma", description: "Schema design, Neon serverless adapter, migration patterns" },
+  { name: "AI SDK Patterns", category: "AI", triggers: "imports: ai, @ai-sdk/*", description: "streamText, useChat, Agent class, tool definitions, AI Gateway" },
+  { name: "Prompt Engineering", category: "AI", triggers: "prompt keywords", description: "System prompts, few-shot examples, evaluation, guardrails" },
+  { name: "Responsible AI Governance", category: "AI", triggers: "prompt keywords", description: "Human-in-the-loop, accountability, developer-first AI" },
+  { name: "Testing Automation", category: "Testing", triggers: "**/*.test.ts, **/*.spec.ts", description: "Jest, Vitest, Playwright, Cypress, mutation testing" },
+  { name: "Given-When-Then", category: "Testing", triggers: "prompt keywords", description: "Acceptance criteria, BDD scenarios, user story breakdowns" },
+  { name: "Engineering Practices", category: "Standards", triggers: "prompt keywords", description: "SOLID principles, clean code, testing strategies" },
+  { name: "Accessibility First", category: "Standards", triggers: "prompt keywords", description: "WCAG standards, semantic HTML, ARIA, keyboard navigation" },
+  { name: "Documentation Standards", category: "Standards", triggers: "**/*.md, docs/**", description: "Concise, clean, no repetition, no filler, no emojis" },
+  { name: "Code Documentation", category: "Standards", triggers: "**/*.ts, **/*.tsx", description: "TSDoc with params, returns, throws. No inline comments." },
+  { name: "Git Workflow", category: "Workflow", triggers: "bash: git, gh", description: "Commit conventions, branching, PR best practices" },
+  { name: "CI/CD Pipelines", category: "Workflow", triggers: ".github/workflows/**", description: "GitHub Actions, secrets management, deployment strategies" },
+  { name: "Epic Breakdown", category: "Workflow", triggers: "prompt keywords", description: "Break epics into prioritized, estimated user stories" },
+  { name: "Retrospective", category: "Workflow", triggers: "prompt keywords", description: "What went well, what didn't, what to change" },
+  { name: "Meeting Notes", category: "Communication", triggers: "prompt keywords", description: "Decisions, action items, owners, and deadlines" },
+  { name: "Executive Summary", category: "Communication", triggers: "prompt keywords", description: "One-page summaries with key takeaways and recommendations" },
+  { name: "Stakeholder Email", category: "Communication", triggers: "prompt keywords", description: "Status, blockers, asks, and next steps" },
+  { name: "Slide Outline", category: "Communication", triggers: "prompt keywords", description: "One idea per slide, narrative arc, speaker notes" },
+  { name: "Lab Planner", category: "Planning", triggers: "prompt keywords", description: "Hands-on workshops with time blocks and exercises" },
+  { name: "Decision Log", category: "Planning", triggers: "prompt keywords", description: "Decisions with context, alternatives, and rationale" },
+  { name: "Mermaid Diagrams", category: "Planning", triggers: "**/*.md, **/*.mdx", description: "Flowcharts, sequences, ERDs, state machines" },
+  { name: "Docs Generator", category: "Planning", triggers: "docs/**, **/*.md", description: "READMEs, how-tos, runbooks, onboarding guides" },
+  { name: "CLI Toolkit", category: "Tooling", triggers: "bin/**, commands/**", description: "Commander + Inquirer + Chalk patterns" },
+  { name: "API Proxy Setup", category: "Tooling", triggers: "proxy/**, middleware/**", description: "Express proxy, server-side secret keeping" },
+  { name: "Brand Voice", category: "Brand", triggers: "prompt keywords", description: "Writing voice and principles. Customize for your org." },
+  { name: "Brand Style Guide", category: "Brand", triggers: "prompt keywords", description: "Visual design system. Colors, fonts, components." },
+  { name: "Angular + Nx Expert", category: "Legacy", triggers: "**/*.component.ts", description: "Angular signals, Nx monorepo, module boundaries" },
+  { name: "Micro Frontends", category: "Legacy", triggers: "prompt keywords", description: "Module Federation, shared dependencies" },
+  { name: "NestJS Backend", category: "Legacy", triggers: "**/*.module.ts", description: "Dependency injection, microservices, clean architecture" },
+  { name: "AWS Serverless", category: "Legacy", triggers: "serverless.yml, template.yaml", description: "Lambda, CloudFormation, IAM patterns" },
+  { name: "Developer Experience", category: "Legacy", triggers: "prompt keywords", description: "CLI design, documentation, developer empathy" },
 ];
 
-const categories = [...new Set(skills.map(s => s.category))].sort();
+const categories = [...new Set(skills.map(s => s.category))];
 ---
 
 <Base title="Skills" description="Auto-injected knowledge packets that activate based on what you're working on.">
   <div style="padding: 2rem 0 1rem;">
     <h1>Skills Catalog</h1>
     <p style="color: var(--text-muted); margin-top: 0.5rem; max-width: 600px;">
-      Skills are knowledge packets that auto-inject when you're working in a relevant context.
-      You don't call them — they activate based on file patterns, imports, and prompt keywords.
+      Skills are knowledge that auto-injects when relevant. You don't call them.
+      They activate based on file patterns, imports, and prompt keywords.
     </p>
     <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.75rem;">
+      {skills.length} skills across {categories.length} categories.
       Build your own: <code style="background: var(--bg-card); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-size: 0.85em;">@skill-architect create a skill for [topic]</code>
     </p>
-  </div>
-
-  <div class="skill-count" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
-    {skills.length} skills across {categories.length} categories
   </div>
 
   <table class="skill-table">
@@ -59,7 +84,14 @@ const categories = [...new Set(skills.map(s => s.category))].sort();
       {skills.map((skill) => (
         <tr>
           <td class="skill-name">{skill.name}</td>
-          <td><span class="category-badge">{skill.category}</span></td>
+          <td>
+            <span
+              class="category-badge"
+              style={`color: ${categoryColors[skill.category] || "var(--text-muted)"}; border-color: ${categoryColors[skill.category] || "var(--border)"}`}
+            >
+              {skill.category}
+            </span>
+          </td>
           <td class="triggers">{skill.triggers}</td>
           <td class="desc">{skill.description}</td>
         </tr>
@@ -69,20 +101,20 @@ const categories = [...new Set(skills.map(s => s.category))].sort();
 
   <section class="how-skills-work">
     <h2>How Skills Work</h2>
-    <p class="how-intro">Skills are markdown files that Claude Code loads into context when they're relevant. Instead of dumping every rule into every conversation, skills activate only when you need them.</p>
+    <p class="how-intro">Skills use progressive disclosure. Instead of loading everything into every conversation, Claude Code injects only what matches your current work.</p>
 
     <div class="how-grid">
       <div class="how-card">
-        <h3>You write code normally</h3>
-        <p>Open a file, ask a question, run a command. You don't invoke skills manually. Claude Code watches what you're doing and loads the right knowledge in the background.</p>
+        <h3>You work normally</h3>
+        <p>Open a file, ask a question, run a command. Skills activate in the background. You never invoke them manually.</p>
       </div>
       <div class="how-card">
-        <h3>The right context appears</h3>
-        <p>Edit a <code>.prisma</code> file and database best practices load. Import <code>@ai-sdk/react</code> and the AI SDK skill activates. Ask about "testing" and testing patterns appear. Each skill defines when it should fire.</p>
+        <h3>Context arrives just in time</h3>
+        <p>Each skill defines when it should fire. When a match happens, the skill's content loads into Claude's context for that session. One injection per skill, so nothing repeats.</p>
       </div>
       <div class="how-card">
-        <h3>Claude follows the guidance</h3>
-        <p>The skill's content becomes part of Claude's context for that session. It shapes how Claude writes code, what patterns it uses, and what mistakes it avoids. One injection per session, so it never repeats.</p>
+        <h3>Claude applies the knowledge</h3>
+        <p>The skill shapes how Claude writes code, what patterns it follows, and what mistakes it avoids. Like having a specialist looking over your shoulder, but only when you're in their domain.</p>
       </div>
     </div>
   </section>
@@ -119,8 +151,8 @@ const categories = [...new Set(skills.map(s => s.category))].sort();
   }
   .category-badge {
     font-size: 0.75rem;
-    color: var(--text-muted);
-    border: 1px solid var(--border);
+    font-weight: 500;
+    border: 1px solid;
     border-radius: 999px;
     padding: 0.15rem 0.6rem;
     white-space: nowrap;
@@ -136,10 +168,13 @@ const categories = [...new Set(skills.map(s => s.category))].sort();
 
   .how-skills-work {
     padding: 2.5rem 0;
+    border-top: 1px solid var(--border);
+    margin-top: 1.5rem;
   }
   .how-skills-work h2 {
     font-size: 1.35rem;
     margin-bottom: 0.5rem;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   }
   .how-intro {
     color: var(--text-muted);
@@ -168,12 +203,6 @@ const categories = [...new Set(skills.map(s => s.category))].sort();
     font-size: 0.9rem;
     color: var(--text-muted);
     line-height: 1.5;
-  }
-  .how-card code {
-    background: var(--bg-hover);
-    padding: 0.1rem 0.35rem;
-    border-radius: 0.2rem;
-    font-size: 0.85em;
   }
 
   @media (max-width: 768px) {
