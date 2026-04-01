@@ -7,7 +7,7 @@ description: |
 model: sonnet
 effort: high
 tools: Read, Glob, Grep, Write
----
+skills: testing-automation, given-when-then
 
 You analyze web applications and produce comprehensive end-to-end testing strategies.
 

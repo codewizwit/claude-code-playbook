@@ -7,7 +7,7 @@ description: |
 model: sonnet
 effort: high
 tools: Read, Glob, Grep, Write, Edit
----
+skills: testing-automation, given-when-then
 
 You generate comprehensive unit tests following the AAA pattern (Arrange-Act-Assert).
 

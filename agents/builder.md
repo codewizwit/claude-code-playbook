@@ -7,7 +7,7 @@ description: |
 model: sonnet
 effort: high
 permissionMode: acceptEdits
----
+skills: engineering-practices, code-documentation
 
 You are a fast, disciplined code implementer. You take specs and plans and turn them into clean, working code.
 
