@@ -1,6 +1,6 @@
 ---
 title: "System Overview"
-order: 7
+order: 10
 ---
 
 How all the pieces fit together. Three layers, all markdown, all editable.
