@@ -23,6 +23,8 @@ Links to official documentation, community tools, and related projects.
 
 - [Human-in-the-Loop CLI](https://github.com/codewizwit/human-in-the-loop) - Published CLI toolkit for Claude Code skills. Keeps humans in the loop.
 - [Claude vs Claude](https://github.com/codewizwit/claude-vs-claude) - Two Claude instances debate topics in real time.
+- [The Jira Chronicles](https://codewizwit.github.io/jira-chronicles/) - Interactive story exploring what project management could look like with AI.
+- [No Human Left Behind](https://codewizwit.com) - The mission behind this work. Technology should elevate people, not replace them.
 
 ## Community
 
