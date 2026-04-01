@@ -3,66 +3,102 @@ title: "System Overview"
 order: 10
 ---
 
-How all the pieces fit together. Three layers, all markdown, all editable.
+How all the pieces fit together. Four layers, all markdown, all editable.
 
----
+## The Four Layers
 
-## The Three Layers
+**Agents** are specialized assistants. Each one has a model, a set of tools, and a system prompt. Delegate by name (`@architect`, `@debugger`) or let Claude route automatically. [Browse agents](/agents)
 
-**Agents** are specialized assistants. Each one has a model, a set of tools it can access, and a system prompt that defines how it works. You can delegate tasks to them by name (`@architect`, `@debugger`) or Claude will route to them automatically based on what you're doing.
+**Skills** are knowledge packets that activate based on context. Edit a `.prisma` file and database patterns load. Ask about testing and testing conventions appear. [Browse skills](/skills)
 
-**Skills** are knowledge packets that activate based on context. Edit a `.prisma` file and the database skill loads. Ask about testing and testing patterns appear. You never invoke them manually.
+**Standards** are role-based CLAUDE.md files. Working preferences, guardrails, and conventions. Pick a role, copy the file, customize. Active every session. [Browse standards](/standards)
 
-**Standards** are role-based CLAUDE.md files. They define your working preferences, guardrails, and conventions. Pick one, copy it, fill in the blanks. Active every session.
-
----
+**Settings and Hooks** control permissions and automation. Deny rules that can't be talked around, pre-approved commands, and hooks that fire on events like file saves and commits. [Read more](/docs/settings-json-tips)
 
 ## How They Work Together
 
-1. Your **standard** sets the baseline. How you like to work, what to avoid, what matters.
-2. **Agents** handle specialized tasks. Architect thinks, Builder codes, Reviewer checks quality.
-3. **Skills** inject the right knowledge at the right moment. Framework patterns, testing conventions, documentation rules.
+1. Your **standard** sets the baseline. How you work, what to avoid, what matters.
+2. **Settings** enforce guardrails. Deny rules, permission modes, agent teams.
+3. **Agents** handle specialized tasks. Architect plans, Builder codes, Reviewer checks quality.
+4. **Skills** inject knowledge just in time. Framework patterns, testing conventions, documentation rules.
+5. **Hooks** automate checks. Format on save, block push to main, nudge when docs are stale.
 
-You can use any layer independently. A standard alone is valuable. Adding agents makes you faster. Skills fill in the gaps automatically.
-
----
+Each layer is independent. A standard alone is valuable. Adding agents makes you faster. Skills fill gaps automatically. Hooks catch what you'd forget.
 
 ## Agents
 
-21 agents across four categories.
+33 agents across six categories.
 
-| Category | Count | Examples                                                                                        |
-| -------- | ----- | ----------------------------------------------------------------------------------------------- |
-| Work     | 6     | Architect, Builder, Researcher, Reviewer, Debugger, Refactorer                                  |
-| Meta     | 3     | Agent Architect, Skill Architect, Hook Architect                                                |
-| Utility  | 6     | Codebase Explainer, Test Generator, API Documenter, Migration Guide, AI Auditor, E2E Strategist |
-| Fun      | 6     | Philosopher, Sci-Fi, Anime Buddy, Music Buddy, Storyteller, Rubber Duck                         |
+| Category | Count | Examples                                                                                                                                               |
+| -------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Work     | 6     | Architect, Builder, Researcher, Reviewer, Debugger, Refactorer                                                                                         |
+| Meta     | 3     | Agent Architect, Skill Architect, Hook Architect                                                                                                       |
+| Utility  | 9     | Codebase Explainer, Test Generator, API Documenter, Migration Guide, Doc Writer, Behavioral Interview, Technical Interview, AI Auditor, E2E Strategist |
+| Planning | 3     | Project Planner, Business Analyst, Proposal Writer                                                                                                     |
+| Creative | 3     | Branding, Creative Thinker, Storyteller                                                                                                                |
+| Fun      | 9     | Philosopher, Sci-Fi, Anime Buddy, Music Buddy, Rubber Duck, Steve Jobs, Snoop Claude, Debate Partner, Trivia Host                                      |
 
-Each agent is one markdown file in `~/.claude/agents/`. Browse them all on the [Agents](/agents) page.
-
----
+Each agent is one markdown file. [Browse the full catalog](/agents).
 
 ## Skills
 
-27 skills across categories like Framework, Language, Database, AI, Testing, Standards, and Workflow.
+31 skills across 11 categories: Framework, Language, Database, AI, Testing, Standards, Workflow, Communication, Planning, Tooling, and Brand.
 
-Skills define when they should fire using file patterns, import detection, and prompt keywords. Claude Code handles the matching. You just work normally and the right context appears.
-
-Browse them all on the [Skills](/skills) page.
-
----
+Skills activate based on file patterns, import detection, and prompt keywords. You work normally. The right context appears. [Browse all skills](/skills).
 
 ## Standards
 
-12 role-based CLAUDE.md files covering technical and non-technical roles: Developer, QA Engineer, Data Engineer, Tech Lead, Product Owner, Manager, DevOps Engineer, Design Engineer, Educator, Consultant, Analyst, AI Engineer.
+12 role-based CLAUDE.md files.
 
-Each one is a real CLAUDE.md you can copy and customize. Browse them on the [Standards](/standards) page.
+**Technical:** Developer, QA Engineer, Data Engineer, Tech Lead, DevOps Engineer, Design Engineer, AI Engineer.
+**Non-Technical:** Product Owner, Manager, Educator, Consultant, Analyst.
 
----
+Each one is a real CLAUDE.md you can copy and customize. [Browse standards](/standards).
+
+## Settings and Hooks
+
+Two hooks included out of the box:
+
+- **Auto-format** on every file write (Prettier)
+- **Block push to main** on any direct push attempt
+
+Agent teams enabled via `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS`. [Read about hooks](/docs/hooks). [Read about agent teams](/docs/agent-teams).
+
+## The Workflow
+
+This environment is built around the [plan, execute, iterate](/docs/plan-execute-iterate) cycle:
+
+1. **Plan** with `@architect` or plan mode. Design before building.
+2. **Build** with `@builder`. One step at a time, verify each step.
+3. **Review** with `@reviewer`. Quality check before shipping.
+4. **Iterate** based on feedback. Small corrections, not rewrites.
+
+For [good prompting](/docs/good-prompting) and [context management](/docs/context-management), see the dedicated guides.
+
+## File Structure
+
+Everything lives in `~/.claude/` as plain files.
+
+```
+~/.claude/
+├── CLAUDE.md              Your standard
+├── settings.json          Permissions, hooks, agent teams
+├── agents/                One markdown file per agent
+│   ├── architect.md
+│   ├── builder.md
+│   ├── reviewer.md
+│   └── ...
+└── skills/                One directory per skill
+    ├── typescript-expert/
+    │   └── SKILL.md
+    ├── prisma-neon/
+    │   └── SKILL.md
+    └── ...
+```
+
+All readable. All editable. All version-controllable.
 
 ## Getting Started
-
-The fastest way to set up your environment:
 
 ```
 gh repo fork codewizwit/claude-code-playbook --clone
@@ -72,25 +108,3 @@ claude
 ```
 
 The `/setup` wizard walks you through picking agents, skills, and a standard, then installs everything to `~/.claude/`.
-
----
-
-## File Structure
-
-Everything lives in `~/.claude/` as plain files.
-
-```
-~/.claude/
-├── CLAUDE.md              Your standard (working preferences)
-├── settings.json          Permissions, hooks, plugins
-├── agents/                One markdown file per agent
-│   ├── architect.md
-│   ├── builder.md
-│   └── ...
-└── skills/                One directory per skill
-    ├── typescript-expert/
-    │   └── SKILL.md
-    └── ...
-```
-
-All readable. All editable. All version-controllable.
