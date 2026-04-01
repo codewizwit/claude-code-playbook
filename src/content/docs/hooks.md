@@ -88,5 +88,5 @@ The script checks for `git commit`, diffs the last commit, and outputs a reminde
 
 ## Related
 
-- [settings.json](settings-json-tips) for permissions and deny rules
-- [Agent Teams](agent-teams) for coordinating parallel agents
+- [settings.json](/docs/settings-json-tips) for permissions and deny rules
+- [Agent Teams](/docs/agent-teams) for coordinating parallel agents

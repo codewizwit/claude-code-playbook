@@ -3,7 +3,15 @@ title: "What Is a Skill?"
 order: 3
 ---
 
-A skill is a reusable prompt. detailed instructions in a markdown file that tell Claude what to do, what tools to use, and when to activate. Instead of explaining the same multi-step process every session, you write it once as a skill and invoke it with a slash command.
+A skill is a reusable prompt. Detailed instructions in a markdown file that tell Claude what to do, what tools to use, and when to activate. Write it once, use it every session.
+
+## Two Ways Skills Activate
+
+**Slash commands.** You invoke a skill directly by typing `/skill-name`. Claude loads the full SKILL.md and follows the instructions. Good for multi-step workflows you want to run on demand, like `/setup` or `/epic-breakdown`.
+
+**Automatic matching.** Claude reads the `description` field of every available skill and decides when one is relevant to your current task. If you ask about "acceptance criteria" and there's a skill with "Given-When-Then" in its description, Claude loads it without you asking. Good for background knowledge and conventions that should apply whenever they're relevant.
+
+Both can be active on the same skill. By default, skills are both user-invocable and auto-matchable.
 
 ## How It Works
 
@@ -113,4 +121,4 @@ Poor candidates:
 ## Further Reading
 
 - [Official Claude Code skills documentation](https://code.claude.com/docs/en/skills)
-- [What is a CLAUDE.md?](what-is-a-claude-md.md). how skills and CLAUDE.md files complement each other
+- [What is a CLAUDE.md?](/docs/what-is-a-claude-md). how skills and CLAUDE.md files complement each other

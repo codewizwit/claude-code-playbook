@@ -64,4 +64,4 @@ When multiple levels exist, they're combined. user-level applies first, then pro
 ## Further Reading
 
 - [Official Claude Code CLAUDE.md documentation](https://code.claude.com/docs/en/memory)
-- [What is a skill?](what-is-a-skill.md). reusable prompts that complement your CLAUDE.md
+- [What is a skill?](/docs/what-is-a-skill). reusable prompts that complement your CLAUDE.md

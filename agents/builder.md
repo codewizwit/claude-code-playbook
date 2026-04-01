@@ -1,9 +1,10 @@
 ---
+
 name: builder
 description: |
-  Fast, focused code implementer. Use when there's a clear spec or plan and you need clean code written quickly. Follows existing patterns, runs tests, verifies before declaring done.
+Fast, focused code implementer. Use when there's a clear spec or plan and you need clean code written quickly. Follows existing patterns, runs tests, verifies before declaring done.
 
-  Use this agent when the user says "build this", "implement", "write the code", "scaffold", "add this feature", or when a plan/spec is ready to execute.
+Use this agent when the user says "build this", "implement", "write the code", "scaffold", "add this feature", or when a plan/spec is ready to execute.
 model: sonnet
 effort: high
 permissionMode: acceptEdits

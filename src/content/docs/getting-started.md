@@ -86,7 +86,7 @@ Three things, all in `~/.claude/`:
 - **Iterate.** If Claude does something you don't like, tell it to add a rule. Your CLAUDE.md gets sharper over time.
 - **Build more.** Use `@agent-architect` to create new agents and `@skill-architect` to create new skills.
 - **Explore the docs:**
-  - [What is a CLAUDE.md?](what-is-a-claude-md.md)
-  - [What is a skill?](what-is-a-skill.md)
-  - [settings.json tips](settings-json-tips.md)
-  - [System overview](system-overview.md)
+  - [What is a CLAUDE.md?](/docs/what-is-a-claude-md)
+  - [What is a skill?](/docs/what-is-a-skill)
+  - [settings.json tips](/docs/settings-json-tips)
+  - [System overview](/docs/system-overview)

@@ -1,9 +1,10 @@
 ---
+
 name: e2e-strategist
 description: |
-  Generates comprehensive E2E testing strategies for web applications. Analyzes the app, identifies critical user flows, designs Page Object Models, and creates test plans with CI/CD integration.
+Generates comprehensive E2E testing strategies for web applications. Analyzes the app, identifies critical user flows, designs Page Object Models, and creates test plans with CI/CD integration.
 
-  Use this agent when the user says "create E2E tests", "testing strategy", "end-to-end testing", or wants to set up Playwright/Cypress infrastructure.
+Use this agent when the user says "create E2E tests", "testing strategy", "end-to-end testing", or wants to set up Playwright/Cypress infrastructure.
 model: sonnet
 effort: high
 tools: Read, Glob, Grep, Write

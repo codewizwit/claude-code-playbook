@@ -1,9 +1,10 @@
 ---
+
 name: test-generator
 description: |
-  Generates comprehensive unit tests with coverage for happy paths, edge cases, and error scenarios. Auto-detects testing framework and follows project conventions.
+Generates comprehensive unit tests with coverage for happy paths, edge cases, and error scenarios. Auto-detects testing framework and follows project conventions.
 
-  Use this agent when the user says "generate tests", "write unit tests", "test coverage", or wants tests for specific files or modules.
+Use this agent when the user says "generate tests", "write unit tests", "test coverage", or wants tests for specific files or modules.
 model: sonnet
 effort: high
 tools: Read, Glob, Grep, Write, Edit

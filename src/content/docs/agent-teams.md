@@ -57,6 +57,6 @@ Teams are configured per-project in `.claude/teams/` or created on the fly durin
 
 ## Related
 
-- [settings.json](settings-json-tips) for permissions and environment variables
-- [Hooks](hooks) for automated checks on tool events
+- [settings.json](/docs/settings-json-tips) for permissions and environment variables
+- [Hooks](/docs/hooks) for automated checks on tool events
 - [Agents](/agents) for the full agent catalog

@@ -93,6 +93,6 @@ Written rules in a CLAUDE.md can be ignored under pressure. Deny rules in settin
 
 ## Related
 
-- [Hooks](hooks) for automated checks on tool events
-- [Agent Teams](agent-teams) for coordinating parallel agents
-- [What is a CLAUDE.md?](what-is-a-claude-md) for the other half of configuring Claude Code
+- [Hooks](/docs/hooks) for automated checks on tool events
+- [Agent Teams](/docs/agent-teams) for coordinating parallel agents
+- [What is a CLAUDE.md?](/docs/what-is-a-claude-md) for the other half of configuring Claude Code
