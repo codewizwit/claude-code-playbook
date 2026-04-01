@@ -13,7 +13,6 @@ const categoryColors: Record<string, string> = {
   Planning: "#facc15",
   Tooling: "#4ade80",
   Brand: "#f87171",
-  Legacy: "#6b7280",
 };
 
 const skills = [
@@ -48,11 +47,6 @@ const skills = [
   { name: "API Proxy Setup", category: "Tooling", triggers: "proxy/**, middleware/**", description: "Express proxy, server-side secret keeping" },
   { name: "Brand Voice", category: "Brand", triggers: "prompt keywords", description: "Writing voice and principles. Customize for your org." },
   { name: "Brand Style Guide", category: "Brand", triggers: "prompt keywords", description: "Visual design system. Colors, fonts, components." },
-  { name: "Angular + Nx Expert", category: "Legacy", triggers: "**/*.component.ts", description: "Angular signals, Nx monorepo, module boundaries" },
-  { name: "Micro Frontends", category: "Legacy", triggers: "prompt keywords", description: "Module Federation, shared dependencies" },
-  { name: "NestJS Backend", category: "Legacy", triggers: "**/*.module.ts", description: "Dependency injection, microservices, clean architecture" },
-  { name: "AWS Serverless", category: "Legacy", triggers: "serverless.yml, template.yaml", description: "Lambda, CloudFormation, IAM patterns" },
-  { name: "Developer Experience", category: "Legacy", triggers: "prompt keywords", description: "CLI design, documentation, developer empathy" },
 ];
 
 const categories = [...new Set(skills.map(s => s.category))];
