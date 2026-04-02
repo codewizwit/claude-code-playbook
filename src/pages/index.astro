@@ -14,7 +14,7 @@ const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
     <p class="eyebrow">CLAUDE & I</p>
     <h1>codewizwit Claude Code env</h1>
     <p class="subtitle">
-      33 agents. 31 skills. 12 standards. Built to amplify your work, not replace it, so you can focus on what actually matters. Open source. Fork it and make it yours.
+      33 agents. 4 skills. 12 standards. Generic tools serve everyone the same way, which means they serve no one particularly well. This is a Claude Code environment built to be personalized. Fork it, shape it around how you actually work, and build something that serves you specifically. Open source. No Human Left Behind.
     </p>
     <div class="hero-actions">
       <a href="/agents" class="btn btn-primary">Browse the system</a>
@@ -32,9 +32,9 @@ const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
         <p>Specialized assistants for thinking, building, reviewing, and debugging. Each has its own model, tools, and expertise.</p>
       </a>
       <a href="/skills" class="layer-card">
-        <span class="layer-num">31</span>
+        <span class="layer-num">4</span>
         <h3>Skills</h3>
-        <p>Knowledge that auto-injects when relevant. Edit a Prisma file and database patterns appear. No manual invocation.</p>
+        <p>Interactive skills that run inside Claude Code. Setup wizard, CLAUDE.md generator, skill discovery, and more.</p>
       </a>
       <a href="/standards" class="layer-card">
         <span class="layer-num">12</span>
@@ -103,6 +103,17 @@ const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
     <a href="/standards" class="see-all" style="display: inline-block; margin-top: 1rem;">All {starters.length} roles</a>
   </section>
 
+  <section class="section philosophy">
+    <p class="eyebrow">WHY PERSONALIZE</p>
+    <h2>Your environment should work like you do</h2>
+    <div class="philosophy-content">
+      <p>Most AI setups are one-size-fits-all. Same defaults, same behavior, same blind spots for everyone. That's convenient to ship, but it means the tool never really learns how you think, what you care about, or what you'd never want it to do.</p>
+      <p>A personalized environment changes that. When your CLAUDE.md captures how you actually work, when your agents match the problems you actually solve, when your skills inject the patterns you actually use, the gap between what you ask for and what you get shrinks. Dramatically.</p>
+      <p>This isn't about configuring for configuration's sake. It's about building something that genuinely serves the person using it. A senior architect and a first-time coder shouldn't get the same experience. A data engineer and a product manager shouldn't get the same guardrails. The specificity is the point.</p>
+      <p>We call this <strong>No Human Left Behind</strong>. Technology should adapt to people, not the other way around. Fork this repo, make it yours, and build an environment that actually knows how you work. Then share what you learned so the next person can do the same.</p>
+    </div>
+  </section>
+
   <section class="section cta">
     <p class="eyebrow">MAKE IT YOURS</p>
     <h2>Fork it, run the wizard</h2>
@@ -115,7 +126,7 @@ const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
 
     <div class="install-tab active" id="tab-existing">
       <div class="cta-steps">
-        <div class="copyable"><code>gh repo fork codewizwit/claude-code-playbook --clone && cd claude-code-playbook</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>gh repo fork codewizwit/claude-and-i --clone && cd claude-and-i</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
         <div class="copyable"><code>claude</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
         <div class="copyable"><code>/setup</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
       </div>
@@ -125,7 +136,7 @@ const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
     <div class="install-tab" id="tab-fresh">
       <div class="cta-steps">
         <div class="copyable"><code>npm install -g @anthropic-ai/claude-code</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
-        <div class="copyable"><code>gh repo fork codewizwit/claude-code-playbook --clone && cd claude-code-playbook</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
+        <div class="copyable"><code>gh repo fork codewizwit/claude-and-i --clone && cd claude-and-i</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
         <div class="copyable"><code>claude</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
         <div class="copyable"><code>/setup</code><button class="copy-btn" aria-label="Copy">Copy</button></div>
       </div>
@@ -302,6 +313,23 @@ const funAgents = agents.filter((a) => a.data.type === "fun").slice(0, 3);
   }
   .install-tab { display: none; }
   .install-tab.active { display: block; }
+
+  .philosophy-content {
+    max-width: 640px;
+    margin-top: 1rem;
+  }
+  .philosophy-content p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .philosophy-content p:last-child {
+    margin-bottom: 0;
+  }
+  .philosophy-content strong {
+    color: var(--text);
+  }
 
   .cta { padding: 3rem 0 4rem; }
   .cta-steps {

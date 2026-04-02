@@ -42,9 +42,9 @@ Each agent is one markdown file. [Browse the full catalog](/agents).
 
 ## Skills
 
-31 skills across 11 categories: Framework, Language, Database, AI, Testing, Standards, Workflow, Communication, Planning, Tooling, and Brand.
+4 interactive skills that run inside Claude Code: `/setup` (environment wizard), `/init-claude-md` (generate a CLAUDE.md), `/repo-skills` (discover and install skills), and `/skill-scout` (find community skills).
 
-Skills activate based on file patterns, import detection, and prompt keywords. You work normally. The right context appears. [Browse all skills](/skills).
+Skills are invoked as slash commands and walk you through interactive workflows. [Browse all skills](/skills).
 
 ## Standards
 
@@ -101,8 +101,8 @@ All readable. All editable. All version-controllable.
 ## Getting Started
 
 ```
-gh repo fork codewizwit/claude-code-playbook --clone
-cd claude-code-playbook
+gh repo fork codewizwit/claude-and-i --clone
+cd claude-and-i
 claude
 /setup
 ```

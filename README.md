@@ -1,14 +1,14 @@
 # claude & i
 
-A complete Claude Code environment. 21 agents, 27 skills, 12 role-based standards. Fork it, run the setup wizard, and make it yours.
+A complete Claude Code environment. 33 agents, 4 skills, 12 role-based standards. Fork it, run the setup wizard, and make it yours.
 
-[![Live Site](https://img.shields.io/badge/live_site-claude_%26_i-7c3aed?style=for-the-badge)](https://claude-code-playbook-sigma.vercel.app) [![GitHub](https://img.shields.io/badge/github-codewizwit-18181b?style=for-the-badge&logo=github)](https://github.com/codewizwit/claude-code-playbook)
+[![Live Site](https://img.shields.io/badge/live_site-claude_%26_i-7c3aed?style=for-the-badge)](https://claude-code-playbook-sigma.vercel.app) [![GitHub](https://img.shields.io/badge/github-codewizwit-18181b?style=for-the-badge&logo=github)](https://github.com/codewizwit/claude-and-i)
 
 ## Quick Start
 
 ```bash
-gh repo fork codewizwit/claude-code-playbook --clone
-cd claude-code-playbook
+gh repo fork codewizwit/claude-and-i --clone
+cd claude-and-i
 claude
 /setup
 ```
@@ -23,18 +23,25 @@ Need Node.js or Claude Code first? See the [full setup guide](src/content/docs/g
 
 33 specialized assistants in four categories.
 
-| Category    | Agents                                                                                          |
-| ----------- | ----------------------------------------------------------------------------------------------- |
-| **Work**    | Architect, Builder, Researcher, Reviewer, Debugger, Refactorer                                  |
-| **Meta**    | Agent Architect, Skill Architect, Hook Architect                                                |
-| **Utility** | Codebase Explainer, Test Generator, API Documenter, Migration Guide, AI Auditor, E2E Strategist |
-| **Fun**     | Philosopher, Sci-Fi, Anime Buddy, Music Buddy, Storyteller, Rubber Duck                         |
+| Category    | Agents                                                                                                                                                                  |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Work**    | Architect, Builder, Researcher, Reviewer, Debugger, Refactorer, Branding, Business Analyst, Project Planner, Proposal Writer, Behavioral Interview, Technical Interview |
+| **Meta**    | Agent Architect, Skill Architect, Hook Architect                                                                                                                        |
+| **Utility** | Codebase Explainer, Test Generator, API Documenter, Migration Guide, AI Auditor, E2E Strategist, Creative Thinker, Debate Partner, Doc Writer                           |
+| **Fun**     | Philosopher, Sci-Fi, Anime Buddy, Music Buddy, Storyteller, Rubber Duck, Snoop Dogg, Steve Jobs, Trivia Host                                                            |
 
 Each agent is a markdown file in `agents/`. Browse them on the site or read them directly.
 
 ### Skills
 
-27 auto-injected knowledge packets. They activate based on what files you're editing, what packages you're importing, and what you're asking about.
+4 interactive skills that run inside Claude Code.
+
+| Skill             | What it does                                                 |
+| ----------------- | ------------------------------------------------------------ |
+| `/setup`          | Interactive wizard to pick your standard, agents, and skills |
+| `/init-claude-md` | Generate a CLAUDE.md for your project                        |
+| `/repo-skills`    | Discover and install skills from the repo                    |
+| `/skill-scout`    | Find community skills                                        |
 
 ### Standards
 

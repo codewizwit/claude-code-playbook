@@ -32,8 +32,8 @@ Optional: install the [Claude Code VS Code extension](https://marketplace.visual
 ## Step 3: Fork and Clone the Playbook
 
 ```bash
-gh repo fork codewizwit/claude-code-playbook --clone
-cd claude-code-playbook
+gh repo fork codewizwit/claude-and-i --clone
+cd claude-and-i
 ```
 
 Or fork it on GitHub first, then clone your fork.
@@ -58,19 +58,23 @@ The wizard walks you through three choices:
 
 The wizard copies your selections to `~/.claude/` and verifies the install.
 
-## Step 5: Customize
+## Step 5: Make It Yours
 
-After setup, your environment works out of the box. To customize:
+This is the most important step. The setup wizard gives you a working baseline, but a generic environment serves everyone the same way, which means it serves no one particularly well. The whole point is to shape this around how you actually work.
 
 - Open `~/.claude/CLAUDE.md` and replace the `[PLACEHOLDER]` values with your specifics
 - Or just tell Claude: "Let's customize my CLAUDE.md" and have a conversation about how you work
 
-Common things to customize:
+Things worth personalizing:
 
 - Your tech stack and tools
 - Team conventions and communication channels
 - What Claude should always ask before doing (push, deploy, delete)
 - What Claude should never touch (specific files, directories)
+- How you like to think through problems (plan first? dive in? whiteboard with diagrams?)
+- What kind of feedback helps you vs. what feels like noise
+
+A senior architect and a first-time coder shouldn't get the same experience. A data engineer and a product manager shouldn't get the same guardrails. The specificity is what makes this useful. Keep iterating on it. Every time Claude does something you don't like, add a rule. Every time you repeat yourself, capture the pattern. Your environment should get sharper over time, not stay static.
 
 ## What Got Installed
 
@@ -84,7 +88,8 @@ Three things, all in `~/.claude/`:
 
 - **Use Claude Code normally.** Your configuration is active. Claude follows your preferences automatically.
 - **Iterate.** If Claude does something you don't like, tell it to add a rule. Your CLAUDE.md gets sharper over time.
-- **Build more.** Use `@agent-architect` to create new agents and `@skill-architect` to create new skills.
+- **Build more.** Use `@agent-architect` to create new agents and `@skill-architect` to create new skills. Build agents for problems only you have. That's where the real value lives.
+- **Share what you learn.** If you build an agent or skill that solves a real problem, share it. The next person with that problem shouldn't have to start from scratch. That's how we make sure no one gets left behind.
 - **Explore the docs:**
   - [What is a CLAUDE.md?](/docs/what-is-a-claude-md)
   - [What is a skill?](/docs/what-is-a-skill)
