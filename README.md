@@ -21,7 +21,7 @@ Need Node.js or Claude Code first? See the [full setup guide](src/content/docs/g
 
 ### Agents
 
-21 specialized assistants in four categories.
+33 specialized assistants in four categories.
 
 | Category    | Agents                                                                                          |
 | ----------- | ----------------------------------------------------------------------------------------------- |
